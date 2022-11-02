@@ -17,14 +17,17 @@ def sum_recurs(digri):
 
 
 while True:
-    try:
-        string = input().split(' ')
-        number = int(string[0])
-        digri = int(string[1])
-        # list_process :List[Process] = []
-        p = Process(target=digri_and_sum, args=(number, digri))
-        p.start()
-        # list_process.append(p)
-        p.join()
-    except:
-        print('ошибка')
+    i = 0
+    while i < 6:
+        try:
+            string = input().split(' ')
+            number = int(string[0])
+            digri = int(string[1])
+            list_process :List[Process] = []
+            p = Process(target=digri_and_sum, args=(number, digri))
+            p.start()
+            list_process.append(p)
+            i =+ 1
+        except:
+            print('ошибка')
+    [process.join() for process in list_process]
