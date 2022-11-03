@@ -19,12 +19,13 @@ def sum_recurs(digri):
 
 while True:
     i = 0
+    list_process :List[Process] = []
     while i < int(multiprocessing.cpu_count() / 2):
         try:
             string = input().split(' ')
             number = int(string[0])
             digri = int(string[1])
-            list_process :List[Process] = []
+            # сделать очереди
             p = Process(target=digri_and_sum, args=(number, digri))
             p.start()
             list_process.append(p)
