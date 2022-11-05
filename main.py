@@ -1,10 +1,13 @@
 from multiprocessing import Process
+import multiprocessing as mp
 import multiprocessing
 from typing import List
 
 
 
-def digri_and_sum(number, digri):
+def digri_and_sum(queue :mp.Queue()):
+    number = queue.get()
+    digri = queue.get()
     number_digri = number ** digri
     with open('result.txt', 'a+') as file:
         file.write(f'{number}^{digri}={number_digri} {sum_recurs(number_digri)}\n')
@@ -17,19 +20,22 @@ def sum_recurs(digri):
     return sum
 
 
-while True:         
-    i = 0
-    list_process :List[Process] = []
-    while i < int(multiprocessing.cpu_count() / 2):
-        try:
-            string = input().split(' ')
-            number = int(string[0])
-            digri = int(string[1])
-            # сделать очереди
-            p = Process(target=digri_and_sum, args=(number, digri))
-            p.start()
-            list_process.append(p)
-            i =+ 1
-        except:
-            print('ошибка')
+queue = mp.Queue()
+while True:
+    try:
+        string = input().split(' ')
+        queue.put(int(string[0]))
+        queue.put(int(string[1]))
+    except:
+        print('ошибка')
+        queue.get()
+        queue.get()
+    list_process = []
+    for i in range(int(queue.qsize() / 2)):
+        # сделать очереди
+        work = mp.Process(target=digri_and_sum, args=(queue))
+        work.start()
+        list_process.append(work)
     [process.join() for process in list_process]
+    
+    
