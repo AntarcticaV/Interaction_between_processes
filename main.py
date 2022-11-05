@@ -17,7 +17,7 @@ def sum_recurs(digri):
     return sum
 
 
-while True:
+while True:         
     i = 0
     list_process :List[Process] = []
     while i < int(multiprocessing.cpu_count() / 2):
