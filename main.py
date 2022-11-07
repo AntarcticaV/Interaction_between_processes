@@ -33,7 +33,7 @@ while True:
     list_process = []
     for i in range(int(queue.qsize() / 2)):
         # сделать очереди
-        work = mp.Process(target=digri_and_sum, args=(queue))
+        work = mp.Process(target=digri_and_sum, args=(queue,))
         work.start()
         list_process.append(work)
     [process.join() for process in list_process]
